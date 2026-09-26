@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myexample-web
+  labels:
+    app: myexample-web
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: myexample-web
+  template:
+    metadata:
+      name: myexample-web
+      labels:
+        app: myexample-web
+    spec:
+      containers:
+      - name: myexample-web
+        image: mehul1887/ingress-host-base-routing
+        ports:
+          - containerPort: 80
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: myexample-web
+  labels:
+    app: myexample-web
+spec:
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  selector:
+    app: myexample-web
